@@ -1,0 +1,83 @@
+# Host Options
+# container_runtime: docker or cri-o
+# See here for release 2.0 features  https://github.com/kontena/pharos-cluster/releases/tag/v2.0.0
+hosts:
+  - address: "192.168.106.2"
+    user: uadmin
+    ssh_key_path: ~/.ssh/id_rsa
+    container_runtime: docker
+    role: master
+  - address: "192.168.106.3"
+    user: uadmin
+    ssh_key_path: ~/.ssh/id_rsa
+    container_runtime: docker
+    role: master
+  - address: "1192.168.106.4"
+    user: uadmin
+    ssh_key_path: ~/.ssh/id_rsa
+    container_runtime: docker
+    role: master
+  - address: "192.168.106.7"
+    user: uadmin
+    ssh_key_path: ~/.ssh/id_rsa
+    container_runtime: docker
+    role: worker
+  - address: "192.168.106.8"
+    user: uadmin
+    ssh_key_path: ~/.ssh/id_rsa
+    container_runtime: docker
+    role: worker
+  - address: "192.168.106.12"
+    user: uadmin
+    ssh_key_path: ~/.ssh/id_rsa
+    container_runtime: docker
+    role: worker
+network:
+  provider: weave
+addons:
+  ingress-nginx:
+     enabled: true
+  # kubernetes-dashboard:   # Removed in Kontena Pharos 2.0
+  #    enabled: true
+  host-upgrades:   # Replacement for Kured
+    enabled: true
+# Kontena block storage based on Rook.  New in Kontena Pharos 2.0.2  See here https://www.pharos.sh/docs/2-0/addons/kontena-storage.html
+  kontena-storage:
+    enabled: true
+    data_dir: /var/lib/kontena-storage
+    storage:
+      use_all_nodes: false
+      nodes:
+      - name: "kworker1"
+        devices:
+        - name: "sdb"
+        config:
+          storeType: bluestore
+      - name: "kworker2"
+        devices:
+        - name: "sdb"
+        config:
+          storeType: bluestore
+      - name: "kworker3"
+        devices:
+        - name: "sdb"
+        config:
+          storeType: bluestore  
+    dashboard:
+      enabled: true
+    pool:
+      replicated:
+        size: 3
+  helm:
+    enabled: true
+# Kontena Lens - Custom Dashboard for cluster admin and user access control   https://github.com/kontena/pharos-docs/blob/master/addons/kontena-lens.md
+  kontena-lens:
+    enabled: true
+    name: 'home-cluster' # optional
+    #host: 'your-cluster-dns' # optional  Default address  https://lens.<worker-node-ip>.nip.io
+    tls:
+      email: 'dsapergia@gms.ca' # optional  used to fetch LetsEncrypt Cert.
+    user_management:
+      enabled: true # optional
+    persistence:
+      enabled: true # optional
