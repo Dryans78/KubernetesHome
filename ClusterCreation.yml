@@ -12,7 +12,7 @@ hosts:
     ssh_key_path: ~/.ssh/id_rsa
     container_runtime: docker
     role: master
-  - address: "1192.168.106.4"
+  - address: "192.168.106.4"
     user: uadmin
     ssh_key_path: ~/.ssh/id_rsa
     container_runtime: docker
@@ -41,6 +41,10 @@ addons:
   #    enabled: true
   host-upgrades:   # Replacement for Kured
     enabled: true
+    enabled: true
+    schedule: "30 6 * * *"
+    schedule_window: 1h
+    reboot: true
 # Kontena block storage based on Rook.  New in Kontena Pharos 2.0.2  See here https://www.pharos.sh/docs/2-0/addons/kontena-storage.html
   kontena-storage:
     enabled: true
