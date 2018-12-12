@@ -41,7 +41,6 @@ addons:
   #    enabled: true
   host-upgrades:   # Replacement for Kured
     enabled: true
-    enabled: true
     schedule: "30 6 * * *"
     schedule_window: 1h
     reboot: true
@@ -67,7 +66,7 @@ addons:
         - name: "sdb"
         config:
           storeType: bluestore  
-    dashboard:
+    dashboard:  # Storage Dashboard
       enabled: true
     pool:
       replicated:
@@ -77,7 +76,7 @@ addons:
 # Kontena Lens - Custom Dashboard for cluster admin and user access control   https://github.com/kontena/pharos-docs/blob/master/addons/kontena-lens.md
   kontena-lens:
     enabled: true
-    name: 'home-cluster' # optional
+    name: 'my-cluster' # optional
     #host: 'your-cluster-dns' # optional  Default address  https://lens.<worker-node-ip>.nip.io
     tls:
       email: 'dsapergia@gms.ca' # optional  used to fetch LetsEncrypt Cert.
